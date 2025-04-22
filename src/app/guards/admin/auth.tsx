@@ -55,6 +55,7 @@ export const AuthGuard = ({ children }: { children: ReactNode }) => {
         router.replace("/demo/login");
       }
     } catch (e) {
+      console.log(e)
       router.replace("/demo/login");
     }
   }, [router]);

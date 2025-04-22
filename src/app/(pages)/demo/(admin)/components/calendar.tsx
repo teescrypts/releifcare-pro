@@ -184,7 +184,9 @@ const Calendar = ({ events }: { events: AppointmentEvent[] }) => {
   useEffect(() => {
     const { start, end } = getDateRange(view, date);
     router.push(`/demo/admin/appointment?start=${start}&end=${end}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date, view]);
+  
 
   return (
     <>
