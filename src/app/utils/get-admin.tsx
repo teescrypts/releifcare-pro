@@ -14,7 +14,7 @@ const getAdmin = async (req: NextRequest) => {
     return admin;
   } else {
     const defaultAdmin = await User.findOne({
-      email: "admin@releifcare.live",
+      email: "admin@reliefcare.live",
       role: "admin",
     }).select("_id");
 

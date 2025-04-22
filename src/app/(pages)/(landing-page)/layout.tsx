@@ -64,13 +64,13 @@ export default function LandingLayout({
               </SvgIcon>
 
               <Typography variant="h6" fontWeight="bold">
-                ReleifCare Pro
+                ReliefCare Pro
               </Typography>
             </Box>
             <Typography variant="body2" color="text.secondary">
               Built by{" "}
               <Link
-                href="https://impactillustration.com"
+                href="https://www.instagram.com/impact_illustration1?igsh=NTc4MTIwNjQ2YQ=="
                 target="_blank"
                 rel="noopener"
                 underline="hover"
