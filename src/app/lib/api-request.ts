@@ -43,7 +43,7 @@ async function apiRequest<T, D = undefined>(
     options.body = JSON.stringify(data);
   }
 
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
 
   try {
     const response = await fetch(`${apiBaseUrl}/api/${endpoint}`, options);

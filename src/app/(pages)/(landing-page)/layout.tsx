@@ -12,6 +12,7 @@ import {
 import ImpactLogo from "@/app/icons/untitled-ui/duocolor/impact-logo";
 import CustomTheme from "@/app/components/custom-theme";
 import { Metadata } from "next/types";
+import TopLoader from "../demo/(admin)/components/top-loader";
 
 export const metadata: Metadata = {
   title: "ReliefCare Pro | Massage & Chiropractic Demo",
@@ -55,6 +56,7 @@ export default function LandingLayout({
   return (
     <CustomTheme>
       <CssBaseline />
+      <TopLoader />
       <Container>
         <AppBar position="static" color="inherit" elevation={1}>
           <Toolbar sx={{ justifyContent: "space-between" }}>

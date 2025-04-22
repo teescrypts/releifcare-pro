@@ -48,6 +48,7 @@ export async function PATCH(
 
   try {
     const appointmentId = (await params).id;
+    const { status } = await req.json();
 
     const appointment = await Appointment.findById(appointmentId);
     if (!appointment) {
@@ -64,8 +65,16 @@ export async function PATCH(
     }
 
     // Update status
-    appointment.status = "completed";
+    appointment.status = status;
     await appointment.save();
+
+    if (status === "cancelled") {
+      return apiResponse(
+        "Appointment cancelled",
+        null,
+        200
+      );
+    }
 
     // Fetch loyalty settings
     const loyaltySettings = await LoyaltySettings.findOne({
@@ -107,7 +116,6 @@ export async function PATCH(
     const expectedPoints = Math.floor(
       bookingCount / loyaltySettings.bookingsForPoint
     );
-
 
     if (expectedPoints > earnedBookingPoints) {
       // Add a point

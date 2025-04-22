@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
 
     if (!admin) throw new Error("Still setting up. Please try again later");
 
-    const services = await Service.find({ admin }).select(
+    const services = await Service.find({ admin, status: "active" }).select(
       "name description price duration"
     );
 

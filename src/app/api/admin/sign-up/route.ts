@@ -20,6 +20,7 @@ export async function POST(request: Request) {
 
     return apiResponse("Sign up successfull", { token }, 201);
   } catch (e) {
+    console.log(e)
     return apiResponse(
       e instanceof Error ? e.message : "An unknown error occurred",
       null,

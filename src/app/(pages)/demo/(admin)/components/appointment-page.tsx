@@ -8,10 +8,10 @@ import SOAPNoteDrawer from "./SOAP-note";
 import ClientRecordDrawer from "./client-record-modal";
 import { AppointmentType, ClientDataType, SOAPDataType } from "@/types";
 import {
-  completeBooking,
   fetchClientData,
   fetchPrevNote,
   getAdminAvailability,
+  updateAppointment,
 } from "@/actions";
 import { DateTime } from "luxon";
 import { DateItem } from "../../(pages)/components/booking-date-time";
@@ -108,7 +108,7 @@ export default function AppointmentPage({
 
   const handleCompleteBooking = useCallback(() => {
     setLoading(true);
-    completeBooking(appointment._id).then((result) => {
+    updateAppointment(appointment._id, "completed").then((result) => {
       if (result) {
         if (result?.error) {
           setMessage(result.error);

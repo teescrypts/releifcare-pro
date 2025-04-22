@@ -170,6 +170,8 @@ export async function demoLogin(
       data: { email },
     });
 
+    console.log(response);
+
     experimental_taintUniqueValue(
       "Do not pass the user's token to the client",
       response.data,
@@ -187,6 +189,7 @@ export async function demoLogin(
       maxAge: ONE_WEEK_IN_SECONDS,
     });
   } catch (e) {
+    console.log(e);
     if (e instanceof Error) {
       return { error: e.message };
     } else {
@@ -1171,17 +1174,18 @@ export async function fetchPrevNote(
   }
 }
 
-export async function completeBooking(aptId: string) {
+export async function updateAppointment(aptId: string, status: string) {
   const cookieStore = await cookies();
   const tokenObj = cookieStore.get("session-token");
   const token = tokenObj?.value;
 
   try {
-    const response = await apiRequest<{ message: string }>(
+    const response = await apiRequest<{ message: string }, { status: string }>(
       `admin/appointment/${aptId}`,
       {
         method: "PATCH",
         token,
+        data: { status },
       }
     );
 

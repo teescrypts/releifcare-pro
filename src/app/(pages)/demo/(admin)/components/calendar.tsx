@@ -23,6 +23,9 @@ import { CalendarApi, EventClickArg } from "@fullcalendar/core/index.js";
 import { CalendarToolbar } from "./calendar-toolbar";
 import { EventContentArg } from "@fullcalendar/core";
 import { getDateRange } from "@/app/utils/get-date-range";
+import ConfirmationModal from "./confirmation-modal";
+import notify from "@/app/utils/toast";
+import { updateAppointment } from "@/actions";
 
 type Status = "pending" | "completed" | "cancelled";
 
@@ -64,6 +67,13 @@ const Calendar = ({ events }: { events: AppointmentEvent[] }) => {
     null
   );
 
+  const [aptToDelete, setAptToDelete] = useState<string>();
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const handleEventSelect = useCallback(
     (arg: EventClickArg) => {
       const found = events.find((e) => e.id === arg.event.id);
@@ -78,10 +88,32 @@ const Calendar = ({ events }: { events: AppointmentEvent[] }) => {
     setSelectedEvent(null);
   };
 
-  const handleCancelAppointment = () => {
-    alert("Cancel logic here");
-    handlePopoverClose();
+  const handleCancelAppointment = (id: string) => {
+    handleOpen();
+    setAptToDelete(id);
   };
+
+  const handleCanceleBooking = useCallback(() => {
+    setLoading(true);
+    if (aptToDelete) {
+      updateAppointment(aptToDelete, "cancelled").then((result) => {
+        if (result) {
+          if (result?.error) {
+            setMessage(result.error);
+            handleClose()
+            setLoading(false);
+          }
+
+          if (result?.message) {
+            notify(result.message);
+            setLoading(false);
+            handlePopoverClose();
+            handleClose()
+          }
+        }
+      });
+    }
+  }, [aptToDelete]);
 
   const handleGoToAppointment = () => {
     if (selectedEvent)
@@ -152,7 +184,7 @@ const Calendar = ({ events }: { events: AppointmentEvent[] }) => {
   useEffect(() => {
     const { start, end } = getDateRange(view, date);
     router.push(`/demo/admin/appointment?start=${start}&end=${end}`);
-  }, [date, view, router]);
+  }, [date, view]);
 
   return (
     <>
@@ -216,24 +248,52 @@ const Calendar = ({ events }: { events: AppointmentEvent[] }) => {
                 <strong>Note:</strong> {selectedEvent.note}
               </Typography>
             )}
-            <Box
-              sx={{
-                mt: 2,
-                display: "flex",
-                gap: 1,
-                justifyContent: "flex-end",
-              }}
-            >
-              <Button color="error" onClick={handleCancelAppointment}>
-                Cancel
-              </Button>
-              <Button variant="contained" onClick={handleGoToAppointment}>
-                Go to Appointment
-              </Button>
-            </Box>
+
+            {message && (
+              <Typography
+                textAlign={"center"}
+                color="error"
+                variant="subtitle2"
+              >
+                {message}
+              </Typography>
+            )}
+
+            {selectedEvent.status !== "cancelled" && (
+              <Box
+                sx={{
+                  mt: 2,
+                  display: "flex",
+                  gap: 1,
+                  justifyContent: "flex-end",
+                }}
+              >
+                {selectedEvent.status === "pending" && (
+                  <Button
+                    color="error"
+                    onClick={() => handleCancelAppointment(selectedEvent.id)}
+                  >
+                    Cancel
+                  </Button>
+                )}
+                <Button variant="contained" onClick={handleGoToAppointment}>
+                  Go to Appointment
+                </Button>
+              </Box>
+            )}
           </Box>
         )}
       </Popover>
+
+      <ConfirmationModal
+        open={open}
+        message="Are you sure you want to cancel this appointment?"
+        confirmText="Yes, Cancel"
+        onClose={handleClose}
+        loading={loading}
+        cancelText="No, don't cancel"
+        onConfirm={handleCanceleBooking}
+      />
     </>
   );
 };

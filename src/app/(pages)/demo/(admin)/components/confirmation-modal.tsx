@@ -45,7 +45,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           variant="contained"
           disabled={loading}
         >
-          {loading ? "Deleting..." : confirmText}
+          {loading ? "loading..." : confirmText}
         </Button>
       </DialogActions>
     </Dialog>
