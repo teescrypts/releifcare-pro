@@ -48,14 +48,15 @@ const STATUS_COLORS = (theme: Theme): Record<Status, string> => {
   };
 };
 
+const TIME_ZONE = "America/Chicago";
+
 const Calendar = ({ events }: { events: AppointmentEvent[] }) => {
   const calendarRef = useRef<FullCalendar | null>(null);
   const mdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
   const router = useRouter();
   const theme = useTheme();
 
-  const timeZone = "America/Chicago";
-  const today = DateTime.now().setZone(timeZone).startOf("day").toJSDate();
+  const today = DateTime.now().setZone(TIME_ZONE).startOf("day").toJSDate();
 
   const [date, setDate] = useState(today);
   const [view, setView] = useState<
@@ -144,7 +145,7 @@ const Calendar = ({ events }: { events: AppointmentEvent[] }) => {
 
   const updateDateFromCalendar = (calendarApi: CalendarApi) => {
     const newDate = DateTime.fromJSDate(calendarApi.getDate())
-      .setZone(timeZone)
+      .setZone(TIME_ZONE)
       .toJSDate();
     setDate(newDate);
   };
@@ -213,6 +214,7 @@ const Calendar = ({ events }: { events: AppointmentEvent[] }) => {
             headerToolbar={false}
             dayMaxEventRows={false}
             moreLinkClick="popover"
+            timeZone={TIME_ZONE} 
           />
         </CalendarContainer>
       </Card>
