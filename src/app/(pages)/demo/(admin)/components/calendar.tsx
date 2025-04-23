@@ -54,7 +54,7 @@ const Calendar = ({ events }: { events: AppointmentEvent[] }) => {
   const router = useRouter();
   const theme = useTheme();
 
-  const timeZone = "America/New_York";
+  const timeZone = "America/Chicago";
   const today = DateTime.now().setZone(timeZone).startOf("day").toJSDate();
 
   const [date, setDate] = useState(today);
