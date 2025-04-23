@@ -101,7 +101,7 @@ const Calendar = ({ events }: { events: AppointmentEvent[] }) => {
         if (result) {
           if (result?.error) {
             setMessage(result.error);
-            handleClose()
+            handleClose();
             setLoading(false);
           }
 
@@ -109,7 +109,7 @@ const Calendar = ({ events }: { events: AppointmentEvent[] }) => {
             notify(result.message);
             setLoading(false);
             handlePopoverClose();
-            handleClose()
+            handleClose();
           }
         }
       });
@@ -187,7 +187,6 @@ const Calendar = ({ events }: { events: AppointmentEvent[] }) => {
     router.push(`/demo/admin/appointment?start=${start}&end=${end}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date, view]);
-  
 
   return (
     <>

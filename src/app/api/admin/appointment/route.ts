@@ -1,6 +1,7 @@
 import { authMiddleware } from "@/app/lib/_middleware";
 import apiResponse from "@/app/lib/api-response";
 import Appointment, { IBookedAppointment } from "@/app/models/appointment";
+import { DateTime } from "luxon";
 import { ObjectId } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -50,15 +51,23 @@ export async function GET(req: NextRequest) {
 
     const mapped: AppointmentEvent[] = appointments.map(
       (apt: IBookedAppointmentwithId) => {
-        const {  service, status, _id, note, client } = apt;
+        const { service, status, _id, note, client } = apt;
 
-        const dateTimeStrStart = `${apt.date}T${apt.bookedTime.from}:00`;
-        const dateTimeStart = new Date(dateTimeStrStart);
-        const start = dateTimeStart.getTime();
+        const dateTimeStart = DateTime.fromISO(
+          `${apt.date}T${apt.bookedTime.from}`,
+          {
+            zone: "America/Chicago",
+          }
+        );
+        const start = dateTimeStart.toMillis();
 
-        const dateTimeStrEnd = `${apt.date}T${apt.bookedTime.to}:00`;
-        const dateTimeEnd = new Date(dateTimeStrEnd);
-        const end = dateTimeEnd.getTime();
+        const dateTimeEnd = DateTime.fromISO(
+          `${apt.date}T${apt.bookedTime.to}`,
+          {
+            zone: "America/Chicago",
+          }
+        );
+        const end = dateTimeEnd.toMillis();
 
         return {
           id: _id.toString(),
