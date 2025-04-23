@@ -10,8 +10,8 @@ const timeZone = "America/Chicago";
 type AppointmentEvent = {
   id: string;
   title: string;
-  start: string;
-  end: string;
+  start: number;
+  end: number;
   service: string;
   client: ObjectId;
   note?: string;
@@ -53,19 +53,21 @@ export async function GET(req: NextRequest) {
 
     const mapped: AppointmentEvent[] = appointments.map(
       (apt: IBookedAppointmentwithId) => {
-        const { datetime, service, status, _id, note, client } = apt;
+        const {  service, status, _id, note, client } = apt;
 
-        const duration = service?.duration ?? 60;
+        const dateTimeStrStart = `${apt.date}T${apt.bookedTime.from}:00`;
+        const dateTimeStart = new Date(dateTimeStrStart);
+        const start = dateTimeStart.getTime();
 
-        // Convert to Luxon DateTime object in the specified timezone
-        const startDT = DateTime.fromJSDate(datetime!).setZone(timeZone);
-        const endDT = startDT.plus({ minutes: duration });
+        const dateTimeStrEnd = `${apt.date}T${apt.bookedTime.to}:00`;
+        const dateTimeEnd = new Date(dateTimeStrEnd);
+        const end = dateTimeEnd.getTime();
 
         return {
           id: _id.toString(),
           title: service?.name,
-          start: startDT.toISO()!,
-          end: endDT.toISO()!,
+          start: start,
+          end: end,
           service: service?.name,
           client: client as ObjectId,
           note,

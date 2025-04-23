@@ -214,7 +214,6 @@ const Calendar = ({ events }: { events: AppointmentEvent[] }) => {
             headerToolbar={false}
             dayMaxEventRows={false}
             moreLinkClick="popover"
-            timeZone={TIME_ZONE} 
           />
         </CalendarContainer>
       </Card>
