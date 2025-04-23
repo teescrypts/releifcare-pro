@@ -1,8 +1,11 @@
 import { authMiddleware } from "@/app/lib/_middleware";
 import apiResponse from "@/app/lib/api-response";
 import Appointment, { IBookedAppointment } from "@/app/models/appointment";
+import { DateTime } from "luxon";
 import { ObjectId } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
+
+const timeZone = "America/Chicago";
 
 type AppointmentEvent = {
   id: string;
@@ -19,7 +22,7 @@ export async function GET(req: NextRequest) {
   const authResponse = await authMiddleware(req);
   if (authResponse instanceof NextResponse) return authResponse;
 
-  const admin = authResponse; // Retrieve user ID
+  const admin = authResponse;
   if (!admin)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
@@ -50,22 +53,23 @@ export async function GET(req: NextRequest) {
 
     const mapped: AppointmentEvent[] = appointments.map(
       (apt: IBookedAppointmentwithId) => {
-        const startDateTime = new Date(apt.datetime!); // guaranteed by pre-save hook
-        const durationMins = apt.service?.duration ?? 60;
+        const { datetime, service, status, _id, note, client } = apt;
 
-        const endDateTime = new Date(
-          startDateTime.getTime() + durationMins * 60 * 1000
-        );
+        const duration = service?.duration ?? 60;
+
+        // Convert to Luxon DateTime object in the specified timezone
+        const startDT = DateTime.fromJSDate(datetime!).setZone(timeZone);
+        const endDT = startDT.plus({ minutes: duration });
 
         return {
-          id: apt._id.toString(),
-          title: apt.service?.name,
-          start: startDateTime.toISOString(),
-          end: endDateTime.toISOString(),
-          service: apt.service?.name,
-          client: (apt.client as ObjectId) ?? "Unknown",
-          note: apt.note,
-          status: apt.status,
+          id: _id.toString(),
+          title: service?.name,
+          start: startDT.toISO()!,
+          end: endDT.toISO()!,
+          service: service?.name,
+          client: client as ObjectId,
+          note,
+          status,
         };
       }
     );

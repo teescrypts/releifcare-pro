@@ -28,11 +28,11 @@ export const metadata: Metadata = {
     title: "ReliefCare Pro | Massage & Chiropractic Demo",
     description:
       "A complete demo solution for wellness professionals. Explore ReliefCare Pro — built with modern tools for streamlined practice management.",
-    url: "https://releifcare.live",
+    url: "https://reliefcare.live",
     type: "website",
     images: [
       {
-        url: "https://releifcare.live/images/logo.png",
+        url: "https://reliefcare.live/images/logo.png",
         width: 1200,
         height: 630,
         alt: "ReliefCare Pro",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     title: "ReliefCare Pro | Massage & Chiropractic Demo",
     description:
       "Check out the live demo of ReliefCare Pro — built for massage therapists and chiropractors with powerful features like booking, records, notes, and rewards.",
-    images: ["https://releifcare.live/images/logo.png"],
+    images: ["https://reliefcare.live/images/logo.png"],
   },
 };
 
