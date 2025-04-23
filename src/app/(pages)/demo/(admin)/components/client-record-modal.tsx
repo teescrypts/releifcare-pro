@@ -9,7 +9,7 @@ import {
   IconButton,
   Divider,
   Stack,
-  Grid,
+  Grid2,
   Chip,
   Paper,
   CircularProgress,
@@ -44,11 +44,11 @@ export default function ClientRecordDrawer({
   );
 
   const InfoItem = ({ label, value }: { label: string; value: string }) => (
-    <Grid item xs={12}>
+    <Grid2 size={{ xs: 12 }}>
       <Typography variant="body2">
         <strong>{label}:</strong> {value}
       </Typography>
-    </Grid>
+    </Grid2>
   );
 
   return (
@@ -79,36 +79,22 @@ export default function ClientRecordDrawer({
         <Box px={3} py={2} sx={{ overflowY: "auto", height: "100%" }}>
           <Stack spacing={3}>
             <InfoGroup title="Personal Information">
-              <Grid container spacing={1}>
+              <Grid2 container spacing={1}>
                 <InfoItem label="Name" value={`${data.fname} ${data.lname}`} />
                 <InfoItem label="Email" value={data.email} />
                 <InfoItem label="Phone" value={data.phone} />
-                <InfoItem
-                  label="Date of Birth"
-                  value={new Date(data.dob).toLocaleDateString()}
-                />
+
                 <InfoItem label="Gender" value={data.gender} />
                 <InfoItem
                   label="Emergency Contact"
                   value={data.emergencyContact}
                 />
-              </Grid>
+              </Grid2>
             </InfoGroup>
 
-            <InfoGroup title="Health & Preferences">
-              <Grid container spacing={1}>
-                <InfoItem
-                  label="Medical Conditions"
-                  value={data?.medicalConditions || "Not entered"}
-                />
-                <InfoItem
-                  label="Medications"
-                  value={data?.medications || "Not Entered"}
-                />
-                <InfoItem
-                  label="Injuries"
-                  value={data?.injuries || "Not entered"}
-                />
+            <InfoGroup title="Massage Preferences">
+              <Grid2 container spacing={1}>
+                {/* Optional: Massage Pressure & Focus Areas can be included if it's needed */}
                 <InfoItem
                   label="Massage Pressure"
                   value={data?.massagePressure || "Not entered"}
@@ -117,11 +103,12 @@ export default function ClientRecordDrawer({
                   label="Focus Areas"
                   value={data?.focusAreas || "Not entered"}
                 />
+                {/* Allergies should be treated with care */}
                 <InfoItem
                   label="Allergies"
                   value={data?.allergies || "Not entered"}
                 />
-              </Grid>
+              </Grid2>
             </InfoGroup>
 
             <InfoGroup title="Consent">

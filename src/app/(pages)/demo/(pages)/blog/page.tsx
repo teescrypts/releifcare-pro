@@ -3,6 +3,7 @@ import { Metadata } from "next/types";
 import apiRequest from "@/app/lib/api-request";
 import { blogType } from "@/types";
 import Blogs from "../components/blog";
+import ServicesOverview from "../_sections/services-overview";
 
 export const metadata: Metadata = {
   title: "Blog | Innovative Real Estate Solutions",
@@ -71,6 +72,7 @@ async function Page({ searchParams }: Props) {
   return (
     <div>
       <Blogs adminId={adminId} blogs={blogs} pagination={pagination} />
+       <ServicesOverview admin={adminId} />
     </div>
   );
 }

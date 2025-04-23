@@ -34,7 +34,7 @@ export default function Blogs({
   const router = useRouter();
 
   return (
-    <Container sx={{ mt: 6, mb: 6 }}>
+    <Container sx={{ mt: 6 }}>
       <Box sx={{ py: 8, px: 3, textAlign: "center" }}>
         <Box textAlign="center" mb={4}>
           <Typography variant="h4" gutterBottom>

@@ -56,7 +56,7 @@ const HomeHeroSection: React.FC = () => {
         >
           Explore this live demo website built for independent massage
           therapists and chiropractors. It showcases powerful features like
-          appointment booking, SOAP notes, client intake forms, and loyalty
+          appointment booking and management, client intake forms, and loyalty
           rewards — all customizable for your unique practice
         </Typography>
 

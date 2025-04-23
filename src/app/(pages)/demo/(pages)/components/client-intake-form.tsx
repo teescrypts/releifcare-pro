@@ -1,5 +1,7 @@
 "use client";
 
+// REFACTORED CLIENT INTAKE FORM TO BE NON-HIPAA — PHI QUESTIONS REMOVED
+
 import {
   Box,
   TextField,
@@ -24,7 +26,6 @@ import { useSearchParams } from "next/navigation";
 import { useRouter } from "nextjs-toploader/app";
 import validator from "validator";
 import { ManualSubmitButton } from "@/app/components/edit-button";
-import ExpendMore from "@/app/icons/untitled-ui/duocolor/expand-more";
 
 export type ClientIntakeFormData = {
   fname: string;
@@ -36,9 +37,6 @@ export type ClientIntakeFormData = {
   emergencyContact: string;
   password: string;
   cPassword: string;
-  medicalConditions: string;
-  medications: string;
-  injuries: string;
   massagePressure: string;
   focusAreas: string;
   allergies: string;
@@ -62,9 +60,6 @@ const ClientIntakeForm = () => {
     emergencyContact: "",
     password: "",
     cPassword: "",
-    medicalConditions: "",
-    medications: "",
-    injuries: "",
     massagePressure: "",
     focusAreas: "",
     allergies: "",
@@ -94,7 +89,6 @@ const ClientIntakeForm = () => {
     }));
   };
 
-  // Validation function
   const validateForm = () => {
     const newErrors: Partial<ClientIntakeFormData> = {};
 
@@ -115,17 +109,17 @@ const ClientIntakeForm = () => {
     if (!formData.consent)
       newErrors.consent = "You must accept the consent agreement";
     if (!formData.massagePressure)
-      newErrors.massagePressure = "Please select a preferrd pressure level";
+      newErrors.massagePressure = "Please select a preferred pressure level";
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // Returns true if no errors
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e?: FormEvent) => {
     e!.preventDefault();
     setMessage("");
 
-    if (!validateForm()) return; // Stop if validation fails
+    if (!validateForm()) return;
 
     setLoading(true);
     const result = await signup(
@@ -149,14 +143,19 @@ const ClientIntakeForm = () => {
           Client Intake Form
         </Typography>
 
-        {/* CLIENT INFORMATION */}
+        {/* PRIVACY DISCLAIMER */}
+        <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
+          <strong>Privacy Notice:</strong> This form is not used to collect
+          protected health information (PHI). Please do not enter medical
+          details, diagnoses, or treatment information.
+        </Typography>
+
         <Accordion defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMore />}>
             <Typography variant="h6">Client Information</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <TextField
-              variant="outlined"
               label="First Name"
               name="fname"
               fullWidth
@@ -167,7 +166,6 @@ const ClientIntakeForm = () => {
               helperText={errors.fname}
             />
             <TextField
-              variant="outlined"
               label="Last Name"
               name="lname"
               fullWidth
@@ -178,7 +176,6 @@ const ClientIntakeForm = () => {
               helperText={errors.lname}
             />
             <TextField
-              variant="outlined"
               label="Email"
               name="email"
               fullWidth
@@ -190,7 +187,6 @@ const ClientIntakeForm = () => {
               helperText={errors.email}
             />
             <TextField
-              variant="outlined"
               label="Phone Number"
               name="phone"
               fullWidth
@@ -201,10 +197,8 @@ const ClientIntakeForm = () => {
               error={!!errors.phone}
               helperText={errors.phone}
             />
-
             <TextField
-              variant="outlined"
-              label="Emergency Contact (Phone number)"
+              label="Emergency Contact"
               name="emergencyContact"
               fullWidth
               margin="normal"
@@ -214,9 +208,7 @@ const ClientIntakeForm = () => {
               error={!!errors.emergencyContact}
               helperText={errors.emergencyContact}
             />
-
             <TextField
-              variant="outlined"
               label="Date of Birth"
               name="dob"
               fullWidth
@@ -226,13 +218,11 @@ const ClientIntakeForm = () => {
               onChange={handleChange}
               error={!!errors.dob}
               helperText={errors.dob}
-              slotProps={{ inputLabel: { shrink: true } }}
+              InputLabelProps={{ shrink: true }}
             />
-
             <FormControl fullWidth margin="normal" error={!!errors.gender}>
               <InputLabel id="gender-label">Gender</InputLabel>
               <Select
-                variant="outlined"
                 labelId="gender-label"
                 name="gender"
                 label="Gender"
@@ -247,9 +237,7 @@ const ClientIntakeForm = () => {
                 {errors.gender}
               </Typography>
             </FormControl>
-
             <TextField
-              variant="outlined"
               label="Password"
               name="password"
               fullWidth
@@ -261,7 +249,6 @@ const ClientIntakeForm = () => {
               helperText={errors.password}
             />
             <TextField
-              variant="outlined"
               label="Confirm Password"
               name="cPassword"
               fullWidth
@@ -276,49 +263,7 @@ const ClientIntakeForm = () => {
         </Accordion>
 
         <Accordion>
-          <AccordionSummary expandIcon={<ExpendMore />}>
-            <Typography variant="h6">Health History</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <TextField
-              variant="outlined"
-              label="Medical Conditions"
-              name="medicalConditions"
-              fullWidth
-              multiline
-              rows={3}
-              margin="normal"
-              value={formData.medicalConditions}
-              onChange={handleChange}
-            />
-            <TextField
-              variant="outlined"
-              label="Medications"
-              name="medications"
-              fullWidth
-              multiline
-              rows={3}
-              margin="normal"
-              value={formData.medications}
-              onChange={handleChange}
-            />
-            <TextField
-              variant="outlined"
-              label="Injuries"
-              name="injuries"
-              fullWidth
-              multiline
-              rows={3}
-              margin="normal"
-              value={formData.injuries}
-              onChange={handleChange}
-            />
-          </AccordionDetails>
-        </Accordion>
-
-        {/* MASSAGE PREFERENCES */}
-        <Accordion>
-          <AccordionSummary expandIcon={<ExpendMore />}>
+          <AccordionSummary expandIcon={<ExpandMore />}>
             <Typography variant="h6">Massage Preferences</Typography>
           </AccordionSummary>
           <AccordionDetails>
@@ -341,9 +286,7 @@ const ClientIntakeForm = () => {
                 {errors.massagePressure}
               </Typography>
             </FormControl>
-
             <TextField
-              variant="outlined"
               label="Focus Areas (e.g., Neck, Back)"
               name="focusAreas"
               fullWidth
@@ -352,8 +295,7 @@ const ClientIntakeForm = () => {
               onChange={handleChange}
             />
             <TextField
-              variant="outlined"
-              label="Allergies or Sensitivities"
+              label="Allergies or Sensitivities (e.g., oils, scents)"
               name="allergies"
               fullWidth
               margin="normal"
@@ -363,9 +305,8 @@ const ClientIntakeForm = () => {
           </AccordionDetails>
         </Accordion>
 
-        {/* CLIENT CONSENT */}
         <Accordion>
-          <AccordionSummary expandIcon={<ExpendMore />}>
+          <AccordionSummary expandIcon={<ExpandMore />}>
             <Typography variant="h6">Consent & Agreement</Typography>
           </AccordionSummary>
           <AccordionDetails>
@@ -381,7 +322,7 @@ const ClientIntakeForm = () => {
                   onChange={handleChange}
                 />
               }
-              label="By signing below, I acknowledge that I am aware of the benefits and risks of massage therapy and that I have completed this form to the best of my knowledge. I also agree to inform my massage therapist of any health or medical changes."
+              label="I confirm that I have read and understood the terms of this service, and agree not to submit health or medical data through this form."
             />
           </AccordionDetails>
         </Accordion>

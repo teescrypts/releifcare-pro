@@ -1,6 +1,5 @@
 "use client";
 
-import Assignment from "@/app/icons/untitled-ui/duocolor/assignment";
 import CheckDone01 from "@/app/icons/untitled-ui/duocolor/check-done-01";
 import EventAvailable from "@/app/icons/untitled-ui/duocolor/event-available";
 import FolderShared from "@/app/icons/untitled-ui/duocolor/folder-shared";
@@ -52,10 +51,10 @@ interface ActionsPanelProps {
 export default function ActionsPanel({
   loading,
   handleCompleteBooking,
-  onOpenSOAP,
+  // onOpenSOAP,
   onOpenReschedule,
   onOpenClientRecord,
-  onOpenPreviousSOAP,
+  // onOpenPreviousSOAP,
 }: ActionsPanelProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -83,20 +82,20 @@ export default function ActionsPanel({
       variant: "outlined",
       icon: <FolderShared />,
     },
-    {
-      label: "Read SOAP Notes",
-      onClick: onOpenPreviousSOAP,
-      color: "primary",
-      variant: "outlined",
-      icon: <Assignment />,
-    },
-    {
-      label: "Update SOAP Note",
-      onClick: onOpenSOAP,
-      color: "secondary",
-      variant: "outlined",
-      icon: <Assignment />,
-    },
+    // {
+    //   label: "Read SOAP Notes",
+    //   onClick: onOpenPreviousSOAP,
+    //   color: "primary",
+    //   variant: "outlined",
+    //   icon: <Assignment />,
+    // },
+    // {
+    //   label: "Update SOAP Note",
+    //   onClick: onOpenSOAP,
+    //   color: "secondary",
+    //   variant: "outlined",
+    //   icon: <Assignment />,
+    // },
   ];
 
   return (

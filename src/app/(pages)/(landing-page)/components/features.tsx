@@ -1,7 +1,6 @@
 "use client";
 
 import Article from "@/app/icons/untitled-ui/duocolor/articule";
-import Assignment from "@/app/icons/untitled-ui/duocolor/assignment";
 import CheckDone01 from "@/app/icons/untitled-ui/duocolor/check-done-01";
 import EventBusy from "@/app/icons/untitled-ui/duocolor/event-busy";
 import Loyalty from "@/app/icons/untitled-ui/duocolor/loyalty";
@@ -36,16 +35,16 @@ const features = [
     description:
       "Reward clients for bookings and referrals with redeemable points and coupons.",
   },
-  {
-    icon: (
-      <SvgIcon color="primary" sx={{ fontSize: 40 }}>
-        <Assignment />
-      </SvgIcon>
-    ),
-    title: "SOAP Notes",
-    description:
-      "Create, manage, and review detailed SOAP notes for each client session.",
-  },
+  // {
+  //   icon: (
+  //     <SvgIcon color="primary" sx={{ fontSize: 40 }}>
+  //       <Assignment />
+  //     </SvgIcon>
+  //   ),
+  //   title: "SOAP Notes",
+  //   description:
+  //     "Create, manage, and review detailed SOAP notes for each client session.",
+  // },
   {
     icon: (
       <SvgIcon color="primary" sx={{ fontSize: 40 }}>
@@ -54,7 +53,7 @@ const features = [
     ),
     title: "Client Intake Forms",
     description:
-      "Collect health history, goals, and preferences before each session.",
+      "Collect customer preferences, focus areas and allergies before each session.",
   },
   {
     icon: (
@@ -69,12 +68,11 @@ const features = [
 ];
 
 const FeaturesSection: React.FC = () => {
-
   return (
     <Container>
       <Box
         sx={{
-          py: 10,
+          py: 5,
           px: 2,
           textAlign: "center",
         }}
