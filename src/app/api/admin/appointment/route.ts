@@ -1,11 +1,8 @@
 import { authMiddleware } from "@/app/lib/_middleware";
 import apiResponse from "@/app/lib/api-response";
 import Appointment, { IBookedAppointment } from "@/app/models/appointment";
-import { DateTime } from "luxon";
 import { ObjectId } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
-
-const timeZone = "America/Chicago";
 
 type AppointmentEvent = {
   id: string;
