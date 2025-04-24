@@ -30,10 +30,12 @@ async function Page({
   }>(url, {
     token,
     tag: "fetchAdminApt",
-    cache: "force-cache",
+    // cache: "force-cache",
   });
 
   const appointments = response.data.appointments;
+
+  console.log(appointments)
 
   return (
     <div>

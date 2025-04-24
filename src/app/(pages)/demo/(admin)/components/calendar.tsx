@@ -15,7 +15,6 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { useCallback, useEffect, useRef, useState } from "react";
-import dayjs from "dayjs";
 import { CalendarContainer } from "./calendar-container";
 import interactionPlugin from "@fullcalendar/interaction";
 import { useRouter } from "nextjs-toploader/app";
@@ -207,8 +206,9 @@ const Calendar = ({ events }: { events: AppointmentEvent[] }) => {
             height={800}
             editable={false}
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-            eventClick={handleEventSelect}
             events={events}
+            timeZone="America/Chicago" // Correct property: timeZone instead of timezone
+            eventClick={handleEventSelect}
             eventContent={renderEventContent}
             headerToolbar={false}
             dayMaxEventRows={false}
@@ -242,8 +242,13 @@ const Calendar = ({ events }: { events: AppointmentEvent[] }) => {
             </Typography>
             <Typography variant="body2">
               <strong>Time:</strong>{" "}
-              {dayjs(selectedEvent.start).format("h:mm A")} -{" "}
-              {dayjs(selectedEvent.end).format("h:mm A")}
+              {DateTime.fromISO(selectedEvent.start)
+                .setZone("America/Chicago")
+                .toFormat("h:mm a")}{" "}
+              -{" "}
+              {DateTime.fromISO(selectedEvent.end)
+                .setZone("America/Chicago")
+                .toFormat("h:mm a")}{" "}
             </Typography>
             {selectedEvent.note && (
               <Typography variant="body2" sx={{ mt: 1 }}>

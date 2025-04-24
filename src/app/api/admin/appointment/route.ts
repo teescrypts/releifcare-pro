@@ -8,8 +8,8 @@ import { NextRequest, NextResponse } from "next/server";
 type AppointmentEvent = {
   id: string;
   title: string;
-  start: number;
-  end: number;
+  start: string;
+  end: string;
   service: string;
   client: ObjectId;
   note?: string;
@@ -59,7 +59,7 @@ export async function GET(req: NextRequest) {
             zone: "America/Chicago",
           }
         );
-        const start = dateTimeStart.toMillis();
+        const start = dateTimeStart.toISO();
 
         const dateTimeEnd = DateTime.fromISO(
           `${apt.date}T${apt.bookedTime.to}`,
@@ -67,13 +67,13 @@ export async function GET(req: NextRequest) {
             zone: "America/Chicago",
           }
         );
-        const end = dateTimeEnd.toMillis();
+        const end = dateTimeEnd.toISO();
 
         return {
           id: _id.toString(),
           title: service?.name,
-          start: start,
-          end: end,
+          start: start!,
+          end: end!,
           service: service?.name,
           client: client as ObjectId,
           note,
